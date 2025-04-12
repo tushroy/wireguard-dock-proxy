@@ -1,0 +1,20 @@
+services:
+  wireguard-http-proxy:
+    image: wireguard-http-proxy:latest
+    container_name: wireguard-http-proxy
+    hostname: wireguard-http-proxy
+    environment:
+      PEERS: false
+      PUID : 1000
+      PGID : 1000
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    ports:
+      - "62820:51820/udp"
+      - "8080:8888/tcp"
+    volumes:
+      - ./wireguard:/config/wg_confs/
+      - ./tinyproxy/logs:/var/log/tinyproxy/:rw,cached      
+    restart: unless-stopped
