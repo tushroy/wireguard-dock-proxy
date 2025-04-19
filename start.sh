@@ -82,7 +82,7 @@ dnsmasq_up(){
 
     echo "DNS List"
     printf "%s\n" "${final_dns[@]}"
-    for dns in $final_dns; do
+    for dns in "${final_dns[@]}"; do
         echo "server=$dns" >> /etc/dnsmasq.conf
     done
 
