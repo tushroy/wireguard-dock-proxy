@@ -81,10 +81,15 @@ dnsmasq_up(){
     fi
 
     echo "DNS List"
-    printf "%s\n" "${final_dns[@]}"
-    for dns in "${final_dns[@]}"; do
-        echo "server=$dns" >> /etc/dnsmasq.conf
-    done
+	if [ -n "$UPSTREAM_DNS" ]; then
+		echo "Using UPSTREAM_DNS: $UPSTREAM_DNS"
+		echo "server=$UPSTREAM_DNS" >> /etc/dnsmasq.conf
+	else
+		printf "%s\n" "${final_dns[@]}"
+		for dns in "${final_dns[@]}"; do
+			echo "server=$dns" >> /etc/dnsmasq.conf
+		done
+	fi
 
 
     echo cache-size=1000 >> /etc/dnsmasq.conf
